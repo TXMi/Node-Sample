@@ -1,26 +1,14 @@
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'node:lts-bullseye-slim' 
+            args '-p 3000:3000' 
+        }
+    }
     stages {
-        stage('Build') {
+        stage('Build') { 
             steps {
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-        stage('OWASP DependencyCheck'){
-            steps{
-                echo 'OWASP DependencyCheck ...'
-                dependencyCheck additionalArguments: '--format HTML --format XML --disableYarnAudit', odcInstallation: 'OWASP-Dependency-Check'
+                sh 'npm install' 
             }
         }
     }
